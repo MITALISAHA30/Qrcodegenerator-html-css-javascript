@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+*{
+    margin: 0px;;
+}
+.a{
+    width: 25%;
+    height: 500px;
+    border: 1px solid black;
+    margin-left: 750px;
+    margin-top: 290px;
+}
+.b{
+text-align: center;
+}
+.c{
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 85%;
+    height: 35px;
+    padding: 10px;
+    font-size: 25px;
+}
+.d{
+    margin-top: 40px;
+    margin-left: 20px;
+    font-size: 25px;
+}
+.e{
+    margin-top: 40px;
+    margin-left: 150px;
+   font-size: 20px;
+}
+.f{
+    margin-top: 40px;
+    margin-left: 40px;
+    width: 40%;
+    height: 100px;
+}
+.g{
+    margin-top: 110px;
+    margin-left: 20px;
+    width: 40%;
+    height: 50px;
+    font-size: 20px;
+}
+.h{
+    margin-top: 110px;
+    margin-left: 40px;
+    width: 40%;
+    height: 50px;
+    font-size: 20px;
+}
+</style>
+<body>
+    <div class="a">
+        <h1 class="b">QR Code Generator</h1>
+        <input type="text" placeholder="Type ypur text or URL" class="c" id="text"><br>
+        <label class="d">Select Size:</label>
+        <select class="e" id="sizes">
+            <option value="100">100x100</option>
+            <option value="200">200x200</option>
+            <option value="300">300x300</option>
+            <option value="400">400x400</option>
+            <option value="500">500x500</option>
+            <option value="600">600x600</option>
+            <option value="700">700x700</option>
+            <option value="800">800x800</option>
+            <option value="900">900x900</option>
+            <option value="1000">1000x1000</option>
+        </select><br>
+        <p class="f"></p>
+        <a href="" id="generateBtn" ><input type="button" value="Generate" class="g"></a>
+        <a href="" id="downloadBtn" download="QR_Code.png"><input type="button" value="Download" class="h"></a>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  const Text = document.getElementById('text');
+const sizes = document.getElementById('sizes');
+const generateBtn = document.getElementById('generateBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const qrContainer = document.querySelector('.f');
+
+let size = sizes.value;
+generateBtn.addEventListener('click',(e)=>{
+    e.preventDefault();
+    isEmptyInput();
+});
+
+sizes.addEventListener('change',(e)=>{
+    size = e.target.value;
+    isEmptyInput();
+});
+
+downloadBtn.addEventListener('click', ()=>{
+    let img = document.querySelector('.f img');
+
+    if(img !== null){
+        let imgAtrr = img.getAttribute('src');
+        downloadBtn.setAttribute("href", imgAtrr);
+    }
+    else{
+        downloadBtn.setAttribute("href", `${document.querySelector('canvas').toDataURL()}`);
+    }
+});
+
+function isEmptyInput(){
+   
+    Text.value.length > 0 ? generateQRCode() : alert("Enter the text or URL to generate your QR code");;
+}
+function generateQRCode(){
+    qrContainer.innerHTML = "";
+    new QRCode(qrContainer, {
+        text:Text.value,
+        height:size,
+        width:size,
+        colorLight:"#fff",
+        colorDark:"#000",
+    });
+}
+
+
+</script>
+</html>
